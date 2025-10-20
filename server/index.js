@@ -10,8 +10,8 @@ app.use(cors({
 app.use(express.json())
 app.use('/auth', authRouter) 
 app.get('/', (req, res) => {
-    console.log("req.body")
-})
+    res.send("Le serveur fonctionne ✅");
+});
 
 app.listen(process.env.PORT, () => {
     console.log("Le Server est en route")

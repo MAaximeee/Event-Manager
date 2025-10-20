@@ -1,60 +1,100 @@
-import React, { useState } from 'react'
-import {Link, useNavigate} from 'react-router-dom'
-import axios from 'axios'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import logo from '../assets/logo.svg'; // Ton nouveau logo
 
 const Register = () => {
-    const [values, setValues] = useState({
-        username: '',
-        email: '',
-        password: ''
-    })
-    const navigate = useNavigate()
+  const [values, setValues] = useState({
+    username: '',
+    email: '',
+    password: ''
+  });
 
-    const handleChanges = (e) => {
-        setValues({...values, [e.target.name]:e.target.value})
+  const navigate = useNavigate();
+
+  const handleChanges = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Vérification simple des champs
+    if (!values.username || !values.email || !values.password) {
+      alert('Veuillez remplir tous les champs');
+      return;
     }
-    const handleSumbit = async (e) => {
-        e.preventDefault()
-        try {
-            const response = await axios.post('http://localhost:3000/auth/register', values)
-            if(response.status === 201) {
-                navigate('/login')
-            }
-        } catch(err) {
-            console.log(err.message)
-        }
+
+    try {
+      const response = await axios.post('http://localhost:3000/auth/register', values);
+
+      if (response.status === 201) {
+        navigate('/login');
+      }
+    } catch (err) {
+      console.error('Erreur inscription :', err);
+      alert(err.response?.data?.message || 'Erreur lors de l’inscription');
     }
+  };
+
   return (
-    <div className=''>
-        <div className=''>
-            <h2 className=''>Inscription</h2>
-            <form onSubmit={handleSumbit}>
-                <div className="">
-                    <label htmlFor="username" className=''>Nom D'utilisateur</label>
-                    <input type="text" placeholder='Enter Username' className=''
-                    name="username" onChange={handleChanges}/>
-                </div>
-                <div className="">
-                    <label htmlFor="email" className=''>Email</label>
-                    <input type="email" placeholder='Enter Email' className=''
-                    name="email" onChange={handleChanges}/>
-                </div>
-                <div className="">
-                    <label htmlFor="password" className=''>Mot de passe</label>
-                    <input type="password" placeholder='Enter Password' className=''
-                    name="password" onChange={handleChanges}/>
-                </div>
-                <button className=" ">Nous rejoindre</button>
-            </form>
-            <div className="">
-                <span>Vous avez déjà un compte?</span>
-                <Link to='/login' className=''>Connexion</Link>
-            </div>
+    <div className="min-h-screen flex justify-center items-center bg-gray-900">
+      <div className="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-md">
+        <div className="flex justify-center mb-6">
+          <img src={logo} alt="Logo" className="h-20 w-auto" />
         </div>
+
+        <h2 className="text-2xl text-white font-bold text-center mb-6">Inscription</h2>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="username" className="text-white block mb-1">Nom d'utilisateur</label>
+            <input
+              type="text"
+              placeholder="Enter Username"
+              name="username"
+              onChange={handleChanges}
+              className="w-full px-3 py-2 rounded bg-gray-700 text-white focus:outline-none focus:border-orange-500"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="email" className="text-white block mb-1">Email</label>
+            <input
+              type="email"
+              placeholder="Enter Email"
+              name="email"
+              onChange={handleChanges}
+              className="w-full px-3 py-2 rounded bg-gray-700 text-white focus:outline-none focus:border-orange-500"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="password" className="text-white block mb-1">Mot de passe</label>
+            <input
+              type="password"
+              placeholder="Enter Password"
+              name="password"
+              onChange={handleChanges}
+              className="w-full px-3 py-2 rounded bg-gray-700 text-white focus:outline-none focus:border-orange-500"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 rounded transition-colors"
+          >
+            Nous rejoindre
+          </button>
+        </form>
+
+        <div className="text-center mt-6 text-gray-400">
+          <span>Vous avez déjà un compte ? </span>
+          <Link to="/login" className="text-orange-500 hover:underline">Connexion</Link>
+        </div>
+      </div>
     </div>
-  )
+  );
+};
 
-    
-}
-
-export default Register
+export default Register;
