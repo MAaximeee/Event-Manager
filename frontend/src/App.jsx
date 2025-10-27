@@ -3,6 +3,8 @@ import Home from './pages/Home'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import Navbar from './components/navbar.jsx'
+import Calendrier from './pages/Calendrier.jsx'
+import Footer from './components/footer.jsx'
 
 function App() {
   return (
@@ -12,7 +14,9 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/calendrier' element={<Calendrier />} />
       </Routes>
+      <Footer/>
     </BrowserRouter>
   )
 }

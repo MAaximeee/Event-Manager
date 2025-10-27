@@ -3,32 +3,32 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function Navbar() {
-    const [isOpen, setIsOpen] = useState(false); // État pour le menu
+    const [isOpen, setIsOpen] = useState(false); 
 
-    const toggleMenu = () => setIsOpen(!isOpen); // Ouvre/ferme le menu
+    const toggleMenu = () => setIsOpen(!isOpen);
 
     return (
-        <nav className="flex justify-between items-center bg-gray-900 relative">
+        <nav className=" fixed top-0 left-0 w-full flex justify-between items-center bg-black px-4 z-0">
             <div className="h-20 w-auto overflow-hidden flex justify-center items-center">
                 <img src={logo} alt="Logo" className=" m-4 h-8 w-auto object-contain text-white" />
             </div>
 
-            <div className="flex items-center gap-4">
-                <ul className="flex list-none bg-[#F04406] rounded-lg p-2">
+            <div className="flex items-center justify-center gap-2">
+                <ul className="flex">
                     <li className="mx-5">
-                        <a href="/" className="text-white font-bold hover:text-gray-300">Accueil</a>
+                        <a href="/" className="text-white hover:text-gray-300">Accueil</a>
                     </li>
                     <li className="mx-5">
-                        <a href="/about" className="text-white font-bold hover:text-gray-300">Calendrier</a>
+                        <a href="/calendrier" className="text-white hover:text-gray-300">Calendrier</a>
                     </li>
                     <li className="mx-5">
-                        <a href="/contact" className="text-white font-bold hover:text-gray-300">Contact</a>
+                        <a href="/contact" className="text-white hover:text-gray-300">Contact</a>
                     </li>
                 </ul>
 
                 <div className="relative">
                     <button
-                        className="flex items-center justify-center p-2 text-white rounded-lg bg-transparent hover:text-orange-500"
+                        className="cursor-pointer flex items-center justify-center text-white rounded-lg bg-transparent hover:text-orange-500"
                         onClick={toggleMenu}
                     >
                         <svg width="30" height="30" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,21 +36,18 @@ function Navbar() {
                         </svg>
                     </button>
 
-                    {/* Menu déroulant */}
                     {isOpen && (
                         <div className="absolute right-0 mt-2 w-48  bg-[#F04406] text-white rounded shadow-lg z-50">
                             <Link
                                 to="/profile"
                                 className="block px-4 py-2 hover:bg-orange-700"
-                                onClick={() => setIsOpen(false)}
-                            >
+                                onClick={() => setIsOpen(false)}>
                                 Mon profil
                             </Link>
                             <Link
                                 to="/settings"
                                 className="block px-4 py-2 hover:bg-orange-700"
-                                onClick={() => setIsOpen(false)}
-                            >
+                                onClick={() => setIsOpen(false)}>
                                 Paramètres
                             </Link>
                             <button
@@ -58,8 +55,7 @@ function Navbar() {
                                     localStorage.removeItem('token');
                                     window.location.reload();
                                 }}
-                                className="w-full text-left px-4 py-2 hover:bg-orange-700"
-                            >
+                                className="w-full text-left px-4 py-2 hover:bg-orange-700">
                                 Déconnexion
                             </button>
                         </div>

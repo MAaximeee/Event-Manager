@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import logo from '../assets/logo.svg'; // Ton nouveau logo
+import logo from '../assets/logo.svg';
 
 const Register = () => {
   const [values, setValues] = useState({
-    username: '',
-    email: '',
-    password: ''
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
   });
 
   const navigate = useNavigate();
@@ -19,23 +20,32 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Vérification simple des champs
-    if (!values.username || !values.email || !values.password) {
-      alert('Veuillez remplir tous les champs');
+    if (!values.username || !values.email || !values.password || !values.confirmPassword) {
+      alert("Veuillez remplir tous les champs");
+      return;
+    }
+
+    if (values.password !== values.confirmPassword) {
+      alert("Les mots de passe ne correspondent pas");
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', values);
+      const response = await axios.post("http://localhost:3000/auth/register", {
+        username: values.username,
+        email: values.email,
+        password: values.password
+      });
 
       if (response.status === 201) {
-        navigate('/login');
+        navigate("/login");
       }
     } catch (err) {
-      console.error('Erreur inscription :', err);
-      alert(err.response?.data?.message || 'Erreur lors de l’inscription');
+      console.error("Erreur inscription :", err);
+      alert(err.response?.data?.message || "Erreur lors de l’inscription");
     }
   };
+
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-900">
@@ -48,10 +58,10 @@ const Register = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="username" className="text-white block mb-1">Nom d'utilisateur</label>
+            <label htmlFor="username" className="text-white block mb-1"></label>
             <input
               type="text"
-              placeholder="Enter Username"
+              placeholder="Nom d'utilisateur"
               name="username"
               onChange={handleChanges}
               className="w-full px-3 py-2 rounded bg-gray-700 text-white focus:outline-none focus:border-orange-500"
@@ -59,10 +69,10 @@ const Register = () => {
           </div>
 
           <div>
-            <label htmlFor="email" className="text-white block mb-1">Email</label>
+            <label htmlFor="email" className="text-white block mb-1"></label>
             <input
               type="email"
-              placeholder="Enter Email"
+              placeholder="Email"
               name="email"
               onChange={handleChanges}
               className="w-full px-3 py-2 rounded bg-gray-700 text-white focus:outline-none focus:border-orange-500"
@@ -70,20 +80,29 @@ const Register = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="text-white block mb-1">Mot de passe</label>
+            <label htmlFor="password" className="text-white block mb-1"></label>
             <input
               type="password"
-              placeholder="Enter Password"
+              placeholder="Password"
               name="password"
               onChange={handleChanges}
               className="w-full px-3 py-2 rounded bg-gray-700 text-white focus:outline-none focus:border-orange-500"
             />
           </div>
 
+          <div>
+            <label htmlFor="password" className="text-white block mb-1"></label>
+            <input
+              type="password"
+              placeholder="Confirmer le mot de passe"
+              name="confirmPassword"
+              onChange={handleChanges}
+              className="w-full px-3 py-2 rounded bg-gray-700 text-white focus:outline-none focus:border-orange-500"/>
+          </div>
+
           <button
             type="submit"
-            className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 rounded transition-colors"
-          >
+            className="cursor-pointer w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 rounded transition-colors">
             Nous rejoindre
           </button>
         </form>
