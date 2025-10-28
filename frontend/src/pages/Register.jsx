@@ -48,8 +48,8 @@ const Register = () => {
 
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-900">
-      <div className="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-md">
+    <div className="min-h-screen flex justify-center items-center bg-zinc-900">
+      <div className="w-full max-w-md p-8 bg-zinc-800 rounded-lg shadow-2xl"> 
         <div className="flex justify-center mb-6">
           <img src={logo} alt="Logo" className="h-20 w-auto" />
         </div>
@@ -64,29 +64,29 @@ const Register = () => {
               placeholder="Nom d'utilisateur"
               name="username"
               onChange={handleChanges}
-              className="w-full px-3 py-2 rounded bg-gray-700 text-white focus:outline-none focus:border-orange-500"
+              className="w-full px-3 py-2 rounded bg-white text-black focus:outline-none focus:border-orange-500"
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="text-white block mb-1"></label>
+            <label htmlFor="email" className="text-black block mb-1"></label>
             <input
               type="email"
               placeholder="Email"
               name="email"
               onChange={handleChanges}
-              className="w-full px-3 py-2 rounded bg-gray-700 text-white focus:outline-none focus:border-orange-500"
+              className="w-full px-3 py-2 rounded bg-white text-black focus:outline-none focus:border-orange-500"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="text-white block mb-1"></label>
+            <label htmlFor="password" className="text-black block mb-1"></label>  
             <input
               type="password"
               placeholder="Password"
               name="password"
               onChange={handleChanges}
-              className="w-full px-3 py-2 rounded bg-gray-700 text-white focus:outline-none focus:border-orange-500"
+              className="w-full px-3 py-2 rounded bg-white text-black focus:outline-none focus:border-orange-500"
             />
           </div>
 
@@ -97,17 +97,17 @@ const Register = () => {
               placeholder="Confirmer le mot de passe"
               name="confirmPassword"
               onChange={handleChanges}
-              className="w-full px-3 py-2 rounded bg-gray-700 text-white focus:outline-none focus:border-orange-500"/>
+              className="w-full px-3 py-2 rounded bg-white text-black focus:outline-none focus:border-orange-500"/>
           </div>
 
           <button
             type="submit"
-            className="cursor-pointer w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 rounded transition-colors">
+            className="cursor-pointer w-full bg-orange-600 hover:bg-orange-700 text-black font-semibold py-2 rounded transition-colors">
             Nous rejoindre
           </button>
         </form>
 
-        <div className="text-center mt-6 text-gray-400">
+        <div className="text-center mt-6 text-white">
           <span>Vous avez déjà un compte ? </span>
           <Link to="/login" className="text-orange-500 hover:underline">Connexion</Link>
         </div>
