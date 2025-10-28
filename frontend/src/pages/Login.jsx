@@ -1,88 +1,92 @@
-import React, { useState } from 'react'
-import {Link, useNavigate} from 'react-router-dom'
-import axios from 'axios'
-import eventManagerLogo from '../assets/eventManager.png'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import logo from '../assets/logo.svg';
+import '../index.css';
+
 
 const Login = () => {
-    const [values, setValues] = useState({
-        email: '',
-        password: ''
-    })
-    const navigate = useNavigate()
+  const [values, setValues] = useState({
+    email: '',
+    password: ''
+  });
 
-    const handleChanges = (e) => {
-        setValues({...values, [e.target.name]:e.target.value})
+  const navigate = useNavigate();
+
+  const handleChanges = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Vérification simple des champs
+    if (!values.email || !values.password) {
+      alert('Veuillez remplir tous les champs');
+      return;
     }
-    const handleSumbit = async (e) => {
-        e.preventDefault()
-         
-        if (!values.email || !values.password) {
-            alert('Veuillez remplir tous les champs')
-            return
-        }
-    
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        if (!emailRegex.test(values.email)) {
-            alert('Veuillez entrer un email valide')
-            return
-        }
-        
-        try {
-            const response = await axios.post('http://localhost:3000/auth/login', values)
-            if(response.status === 201) {
-                localStorage.setItem('token', response.data.token)
-                navigate('/')
-            }
-        } catch(err) {
-            console.error('Login error:', err)
-            if (err.response) {
-                alert(err.response.data.message || 'Erreur de connexion')
-            } else {
-                alert('Erreur de connexion au serveur')
-            }
-        }
+
+    try {
+      const response = await axios.post('http://localhost:3000/auth/login', values);
+
+      if (response.status === 201) {
+        localStorage.setItem('token', response.data.token);
+        navigate('/');
+      }
+    } catch (err) {
+      console.error('Erreur connexion :', err);
+      alert(err.response?.data?.message || 'Erreur lors de la connexion');
     }
+  };
+
   return (
-    <div className='min-h-screen flex justify-center items-center' style={{background: '#171E26'}}>
-        <div className='w-full py-16' style={{backgroundColor: '#24303C'}}>
-            <div className='flex justify-center mb-12'>
-                <div 
-                    style={{
-                        borderRadius: '20px',
-                        background: `url(${eventManagerLogo}) lightgray -53.011px -143.565px / 146.389% 463.321% no-repeat`,
-                        width: '255.09px',
-                        height: '81px',
-                        flexShrink: 0,
-                        aspectRatio: '255.09/81.00'
-                    }}
-                >
-                </div>
-            </div>
-            
-            <div className='max-w-sm mx-auto'>
-                <form onSubmit={handleSumbit} className='space-y-8'>
-                    <div>
-                        <input type="email" placeholder='Adresse mail' className='w-full px-4 py-3 bg-transparent border-b-2 border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:border-orange-500 transition-colors' name="email" onChange={handleChanges} />
-                    </div>
-                    <div>
-                        <input type="password" placeholder='Mot de passe' className='w-full px-4 py-3 bg-transparent border-b-2 border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:border-orange-500 transition-colors' name="password" onChange={handleChanges} />
-                    </div>
-                    
-                    <div className='pt-8 flex justify-center'>
-                        <button className="bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-8 rounded-full transition-colors">CONNEXION</button>
-                    </div>
-                </form>
-                
-                <div className="text-center mt-12">
-                    <div className='flex justify-center space-x-8'>
-                        <span className='text-gray-400 text-sm'>Mot de passe oublié ?</span>
-                        <Link to='/register' className='text-gray-400 text-sm hover:text-orange-400 transition-colors'>Pas de compte ?</Link>
-                    </div>
-                </div>
-            </div>
+    <div className="min-h-screen flex justify-center items-center bg-zinc-900">
+      <div className="w-full max-w-md p-8 bg-zinc-800 rounded-lg shadow-2xl">
+        <div className="flex justify-center mb-6">
+          <img src={logo} alt="Logo" className="h-20 w-auto" />
         </div>
-    </div>
-  )
-}
 
-export default Login
+        <hr className="border-white mb-6" />
+
+        <h2 className="text-2xl text-white font-bold text-center mb-6">Connectez-vous</h2>
+
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="email" className="text-white block mb-1"></label>
+            <input
+              type="email"
+              placeholder="Email"
+              name="email"
+              onChange={handleChanges}
+              className="w-full px-3 py-2 rounded bg-white text-black focus:outline-none focus:border-orange-500"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="password" className="text-black block mb-1"></label>
+            <input
+              type="password"
+              placeholder="Mot de passe"
+              name="password"
+              onChange={handleChanges}
+              className="w-full px-3 py-2 rounded bg-white text-black focus:outline-none focus:border-orange-500"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="cursor-pointer w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 rounded transition-colors" >
+            Connexion</button>
+        </form>
+
+        <div className="text-center mt-6 text-gray-400">
+          <span>Pas de compte ? </span>
+          <Link to="/register" className="text-orange-500 hover:underline">S'inscrire</Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
