@@ -83,4 +83,44 @@ router.get('/home', verifyToken, async (req, res) => {
     }
 })
 
+// Update du profil utilisateur
+router.put('/profile', verifyToken, async (req, res) => {
+    try {
+        const { username, email, password } = req.body;
+        const db = await connectToDatabase();
+
+    // rquete en fonctiondes champs fournis
+        const fields = [];
+        const values = [];
+
+        if (username) {
+            fields.push('username = ?');
+            values.push(username);
+        }
+        if (email) {
+            fields.push('email = ?');
+            values.push(email);
+        }
+        if (password) {
+            const hashPassword = await bcrypt.hash(password, 10);
+            fields.push('password = ?');
+            values.push(hashPassword);
+        }
+
+        if (fields.length === 0) {
+            return res.status(400).json({ message: 'Aucun champ à mettre à jour' });
+        }
+
+        values.push(req.userId);
+        const sql = `UPDATE users SET ${fields.join(', ')} WHERE id = ?`;
+        await db.query(sql, values);
+
+        const [rows] = await db.query('SELECT id, username, email FROM users WHERE id = ?', [req.userId]);
+        return res.status(200).json({ user: rows[0] });
+    } catch (err) {
+        console.error('Profile update error:', err.message);
+        return res.status(500).json({ message: 'Erreur du serveur' });
+    }
+})
+
 export default router;

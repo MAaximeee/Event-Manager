@@ -5,24 +5,29 @@ import { Link } from 'react-router-dom';
 function Navbar() {
     const [isOpen, setIsOpen] = useState(false); 
 
-    const toggleMenu = () => setIsOpen(!isOpen);
+    const toggleMenu = () => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            setIsOpen(!isOpen);
+        }
+    };
 
     return (
-        <nav className=" fixed top-0 left-0 w-full flex justify-between items-center bg-black px-4 z-0">
+        <nav className="fixed top-0 left-0 w-full flex justify-between items-center bg-black px-4 z-50">
             <div className="h-20 w-auto overflow-hidden flex justify-center items-center">
-                <img src={logo} alt="Logo" className=" m-4 h-8 w-auto object-contain text-white" />
+                <img src={logo} alt="Logo" className="m-4 h-8 w-auto object-contain text-white" />
             </div>
 
             <div className="flex items-center justify-center gap-2">
                 <ul className="flex">
                     <li className="mx-5">
-                        <a href="/" className="text-white hover:text-gray-300">Accueil</a>
+                        <a href="/" className="text-white hover:text-orange-500">Accueil</a>
                     </li>
                     <li className="mx-5">
-                        <a href="/calendrier" className="text-white hover:text-gray-300">Calendrier</a>
+                        <a href="/calendrier" className="text-white hover:text-orange-500">Calendrier</a>
                     </li>
                     <li className="mx-5">
-                        <a href="/contact" className="text-white hover:text-gray-300">Contact</a>
+                        <a href="/contact" className="text-white hover:text-orange-500">Contact</a>
                     </li>
                 </ul>
 
@@ -37,7 +42,7 @@ function Navbar() {
                     </button>
 
                     {isOpen && (
-                        <div className="absolute right-0 mt-2 w-48  bg-[#F04406] text-white rounded shadow-lg z-50">
+                        <div className="absolute right-0 mt-2 w-48 bg-[#F04406] text-white rounded shadow-lg z-50">
                             <Link
                                 to="/profile"
                                 className="block px-4 py-2 hover:bg-orange-700"
@@ -61,8 +66,6 @@ function Navbar() {
                         </div>
                     )}
                 </div>
-
-            
             </div>
         </nav>
     );

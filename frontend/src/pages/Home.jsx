@@ -25,7 +25,7 @@ const Home = () => {
     fetchUser()
   }, [])
   return (
-    <div className='text-3xl text-blue-500'>Home</div>
+    <div className='text-3xl text-blue-500 pt-22 pb-20'>Home</div>
   )
 }
 
